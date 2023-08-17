@@ -3,8 +3,17 @@ import "flatpickr/dist/flatpickr.min.css";
 
 
 const refs = {
-    startBtn: document.querySelector('[data-start]')
+    body: document.querySelector('body'),
+    inputTime: document.querySelector('#datetime-picker'),
+    startBtn: document.querySelector('[data-start]'),
+    timerBox: document.querySelector('.timer'),
+    velueTimerDay: document.querySelector('[data-days]'),
+    velueTimerHours: document.querySelector('[data-hours'),
+    velueTimerMinutes: document.querySelector('[data-minutes]'),
+    velueTimerSeconds: document.querySelector('[data-seconds]')
 }
+
+
 
 const data = new Date();
 refs.startBtn.disabled = true;
@@ -20,22 +29,27 @@ const options = {
         if (selectedDates[0] > data) {
             refs.startBtn.disabled = false;
       };
-      refs.startBtn.addEventListener('click', onClick);
-      
-      function onClick() {
+        refs.startBtn.addEventListener('click', onClick);
+        
+        function onClick() {
+            refs.startBtn.disabled = true;
+            refs.inputTime.disabled = true;
+
           const id = setInterval(() => { 
               selectedDate -= 1000;
-             let result = convertMs(selectedDate)
-              if (!result.seconds) {
+              let result = convertMs(selectedDate);
+                    refs.velueTimerDay.textContent = result.days;
+                    refs.velueTimerHours.textContent = result.hours;
+                    refs.velueTimerMinutes.textContent = result.minutes;
+                    refs.velueTimerSeconds.textContent = result.seconds;
+              if (result.seconds < 0) {
                   clearInterval(id);
-                  refs.startBtn.disabled = true;
+                  alert('Please refresh the page and you will be able to choose another date!');
               };
               console.log(selectedDate);
               console.log(result);
           }, 1000)
-          }
-          
-          
+          }  
       }
         
   };
@@ -60,3 +74,7 @@ function convertMs(ms) {
 
   return { days, hours, minutes, seconds };
 };
+
+function addLeadingZero(value) {
+    
+}

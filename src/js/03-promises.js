@@ -7,34 +7,25 @@ const refs = {
   amount: document.querySelector('[ name="amount"]')
 };
 
-
 refs.form.addEventListener('submit', onSubmit);
 
 function onSubmit(eve) {
   eve.preventDefault();
-  for (let i = 1; i < refs.amount.value; i++) {
-   const id = setInterval()
-    
-  }
-}
 
+  for (let i = 1; i <= Number(refs.amount.value); i++) {
+    let faktDaley = Number(refs.delay.value) + (i - 1) * Number(refs.step.value);
+    setTimeout(createPromise, faktDaley, i, faktDaley)
+  };
 
-
-
+  refs.form.reset();
+};
 
 function createPromise(position, delay) {
   const shouldResolve = Math.random() > 0.3;
   if (shouldResolve) {
-    resolve()
-  } else {
-    reject()
+   Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`)
   }
+  else {
+   Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`)
+  };
 };
-
-createPromise(2, 1500)
-  .then(({ position, delay }) => {
-    console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
-  })
-  .catch(({ position, delay }) => {
-    console.log(`❌ Rejected promise ${position} in ${delay}ms`);
-  });

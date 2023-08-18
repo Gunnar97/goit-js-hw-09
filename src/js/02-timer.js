@@ -27,12 +27,13 @@ const options = {
     onClose(selectedDates) {
     let selectedDate = selectedDates[0];
       if (selectedDates[0] < new Date()) {
-      Notiflix.Notify.warning("Please choose a date in the future");
+      Notiflix.Report.failure("Please choose a date in the future");
        return
       };
         
         if (selectedDates[0] > new Date()) {
-            refs.startBtn.disabled = false;
+          refs.startBtn.disabled = false;
+          
       };
         refs.startBtn.addEventListener('click', onClick);
         
@@ -55,7 +56,7 @@ const options = {
                 clearInterval(id);
                 refs.inputTime.disabled = true;
                 refs.timerBox.classList.add('end');
-                Notiflix.Notify.info('Please refresh the page and you will be able to choose another date!');
+              Notiflix.Report.info('Please refresh the page!');
                 
             };
               console.log(selectedDate);

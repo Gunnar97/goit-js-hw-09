@@ -19,7 +19,6 @@ buttonStat.refs.stopBtn.addEventListener('click', onStop);
 function onStop(eve) {
     buttonStat.activStart();
     clearInterval(timerId1);
-    
 };
 
 

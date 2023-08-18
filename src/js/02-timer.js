@@ -1,5 +1,7 @@
 import flatpickr from "flatpickr";
+import Notiflix from 'notiflix';
 import "flatpickr/dist/flatpickr.min.css";
+
 
 
 const refs = {
@@ -15,7 +17,7 @@ const refs = {
 
 
 
-const data = new Date();
+
 refs.startBtn.disabled = true;
 const options = {
   enableTime: true,
@@ -23,29 +25,39 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
     onClose(selectedDates) {
-    let selectedDate = selectedDates[0] - data;
-    if (selectedDates[0] < data)
-            return (alert("Please choose a date in the future"));
-        if (selectedDates[0] > data) {
+    let selectedDate = selectedDates[0];
+      if (selectedDates[0] < new Date()) {
+      Notiflix.Notify.warning("Please choose a date in the future");
+       return
+      };
+        
+        if (selectedDates[0] > new Date()) {
             refs.startBtn.disabled = false;
       };
         refs.startBtn.addEventListener('click', onClick);
         
         function onClick() {
-            refs.startBtn.disabled = true;
-            refs.inputTime.disabled = true;
+          refs.startBtn.disabled = true;
+          refs.startBtn.classList.add('disabled')
+          refs.inputTime.disabled = true;
 
           const id = setInterval(() => { 
-              selectedDate -= 1000;
-              let result = convertMs(selectedDate);
-                    refs.velueTimerDay.textContent = result.days;
-                    refs.velueTimerHours.textContent = result.hours;
-                    refs.velueTimerMinutes.textContent = result.minutes;
-                    refs.velueTimerSeconds.textContent = result.seconds;
-              if (result.seconds < 0) {
-                  clearInterval(id);
-                  alert('Please refresh the page and you will be able to choose another date!');
-              };
+            let timeDif = selectedDate - new Date();
+            let result = convertMs(timeDif);
+            
+            if (timeDif >= 0) {
+               refs.velueTimerDay.textContent = addLeadingZero(result.days);
+               refs.velueTimerHours.textContent = addLeadingZero(result.hours);
+              refs.velueTimerMinutes.textContent = addLeadingZero(result.minutes);
+              refs.velueTimerSeconds.textContent = addLeadingZero(result.seconds);
+            } 
+              else {
+                clearInterval(id);
+                refs.inputTime.disabled = true;
+                refs.timerBox.classList.add('end');
+                Notiflix.Notify.info('Please refresh the page and you will be able to choose another date!');
+                
+            };
               console.log(selectedDate);
               console.log(result);
           }, 1000)
@@ -76,5 +88,5 @@ function convertMs(ms) {
 };
 
 function addLeadingZero(value) {
-    
+  return String(value).padStart(2, '0');
 }

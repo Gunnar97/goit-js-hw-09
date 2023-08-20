@@ -55,12 +55,9 @@ const options = {
               else {
                 clearInterval(id);
                 refs.inputTime.disabled = true;
-                refs.timerBox.classList.add('end');
-              Notiflix.Report.info('Please refresh the page!');
+                Notiflix.Report.info('Please refresh the page!');
                 
             };
-              console.log(selectedDate);
-              console.log(result);
           }, 1000)
           }  
       }
